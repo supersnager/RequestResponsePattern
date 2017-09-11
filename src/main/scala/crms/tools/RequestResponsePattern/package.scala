@@ -1,13 +1,11 @@
 package crms.tools
 import akka.actor.{Actor, ActorRef, PoisonPill}
+import org.omg.CORBA.portable.ResponseHandler
 
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContextExecutor, Promise}
 import scala.reflect.ClassTag
 
-/**
-  * Created by antonio on 20.08.17.
-  */
 package object RequestResponsePattern {
 
   /**
@@ -22,6 +20,7 @@ package object RequestResponsePattern {
   }
 
   /********************* Internal API *********************/
+
   /**
     * Default handler of unexpected response
     * This handler will be invoked when internal response handler actor receives message that is different from expected type
@@ -33,6 +32,14 @@ package object RequestResponsePattern {
     * @return
     */
   private[RequestResponsePattern] def defaultUnexpectedResponse[R](res:Any, promise:Promise[R]):Unit = ()
+
+  private[RequestResponsePattern] object ResponseHandler {
+
+    object Messages {
+      case class TimeoutDown()
+    }
+
+  }
 
   /**
     * Internal response handler
@@ -80,14 +87,6 @@ package object RequestResponsePattern {
         self ! PoisonPill
       }
 
-    }
-
-  }
-
-  private[RequestResponsePattern] object ResponseHandler {
-
-    object Messages {
-      case class TimeoutDown()
     }
 
   }
