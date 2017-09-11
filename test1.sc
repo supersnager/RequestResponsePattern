@@ -1,8 +1,10 @@
 import akka.actor.{Actor, ActorRef, ActorSystem, Props}
-import crms.tools.RequestResponsePattern.{Handled, RequestResponse, Unhandled, WaitingForResponseTimeoutException}
+import crms.tools.RequestResponsePattern.Exceptions.WaitingForResponseTimeoutException
+import crms.tools.RequestResponsePattern.{Handled, RequestResponse, Unhandled}
 
 import scala.concurrent.duration.DurationInt
 import scala.util.{Failure, Success}
+
 
 class Start extends Actor with RequestResponse {
 
@@ -50,17 +52,22 @@ class Start extends Actor with RequestResponse {
     "PIERDOL SIĘ PSIE dostałem info, że " + ret.r
   }
 
-  val fut = sendAsyncRequest[Res,String](Req(0), self,
-    (ret: Res) => {
-      println("Mój handler")
-      "PIERDOL SIĘ PSIE dostałem info, że " + ret.r
-    }
-    , (e:Throwable) => {
-      println("Wyjebało się coś w moim handlerze")
-      e
-    }, 5000,
-    (m:Any) => println("Przyszedł nieznany message: " + m)
-  )
+  /*
+  (ret: Res) => {
+    println("Mój handler")
+    "PIERDOL SIĘ PSIE dostałem info, że " + ret.r
+  }*/
+  /*
+  , (e:Throwable) => {
+    println("Wyjebało się coś w moim handlerze")
+    e
+  },
+  */
+  /*(m:Any) => println("Przyszedł nieznany message: " + m)*/
+
+  val fut = sendAsyncRequest[Res,String](Req(0), self)
+
+  import crms.tools.RequestResponsePattern.Exceptions.WaitingForResponseTimeoutException
 
   fut.onComplete {
     case Success(result: String) => {

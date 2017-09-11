@@ -1,42 +1,12 @@
+type Handled[S,R] = S => R
 
 
+def defaultHandle[S]: Handled[S,S] = identity
+
+def myFunc[S <:Any,R <: Any](v:S, handled: Handled[S,R] = defaultHandle(v)): R = {
 
 
-
-class Test {
-
-
-  def ret[A,B]( a:A )(f: A => B):Unit = {
-
-    f(a)
-    Unit
-  }
-
-  def save = {
+  implicitly[Default[S,R]].apply()
 
 
-  // Jak kurwa to sparametryzować?????
-
-  // to pozwala przypisac funkcje do innej zmiennej
-
-  // No ale na funckjach się tak nie da, ale niby się da na metodach, to może tal
-  ret _
-
-  }
 }
-
-  val t = new Test()
-
-t.ret("Dupa")( r => {
-  println("R:" + r)
-  "HUJ"
-} )
-
-
-val s = t.save
-
-s( (r:String) => {
-  println("R:" + r)
-  "HUJ"
-} )
-

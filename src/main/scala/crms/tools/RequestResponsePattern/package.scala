@@ -11,21 +11,9 @@ import scala.reflect.ClassTag
 package object RequestResponsePattern {
 
   /**
-    * Type for handled code
-    * @param S Expected response type
-    * @param R Result type
+    * Type for unexpected resposne code
     */
-  type Handled[S,R] = S => R
-
-  /**
-    * Type for unhandled code
-    */
-  type Unhandled = Throwable => Throwable
-
-  /**
-    * Type for unknown message code
-    */
-  type UnknownMessage = Any => Unit
+  type UnexpectedResponse[R] = (Any, Promise[R]) => Unit
 
   object Exceptions {
 
@@ -34,20 +22,31 @@ package object RequestResponsePattern {
   }
 
   /********************* Internal API *********************/
+  /**
+    * Default handler of unexpected response
+    * This handler will be invoked when internal response handler actor receives message that is different from expected type
+    * By default it does nothing, and response actor will be wait for expected message till timeout.
+    * But programmer can define own handler for example to log received message, or complete promise before timeout
+    * @param res
+    * @param promise
+    * @tparam R
+    * @return
+    */
+  private[RequestResponsePattern] def defaultUnexpectedResponse[R](res:Any, promise:Promise[R]):Unit = ()
 
   /**
-    * Musimy miec tutaj ClassTag, żeby obejśc problem z TypeErasure
+    * Internal response handler
     * @param request Request to send to remote Actor
     * @param receiver Message receiver
     * @param timeout Response timeout
-    * @param unknownFnc Function to run, when receive unknown message
+    * @param unexpectedResponse Function to run, when receive unexpected message instead of expected response of type R
     * @param promise Promise to resolve on result
     */
-  private[RequestResponsePattern] sealed class ResponseHandler[S](request: Any,
+  private[RequestResponsePattern] sealed class ResponseHandler[R](request: Any,
                                                                   receiver: ActorRef,
                                                                   timeout: Int,
-                                                                  unknownFnc: UnknownMessage,
-                                                                  promise:Promise[S] )(implicit tag: ClassTag[S], ec: ExecutionContextExecutor) extends Actor  {
+                                                                  unexpectedResponse: UnexpectedResponse[R],
+                                                                  promise:Promise[R] )(implicit tag: ClassTag[R], ec: ExecutionContextExecutor) extends Actor  {
 
     override def receive:Receive = waitForResponse()
 
@@ -56,10 +55,9 @@ package object RequestResponsePattern {
     private val timeoutScheduler = context.system.scheduler.scheduleOnce(timeout.milliseconds, self, ResponseHandler.Messages.TimeoutDown)
 
 
-    private def waitForResponse()(implicit tag: ClassTag[S]): Receive = {
+    private def waitForResponse()(implicit tag: ClassTag[R]): Receive = {
 
-      case response:S =>
-        println("RHandler otrzymałem oczekiwaną wiadomość, resolwuję sukces promisę")
+      case response:R =>
         timeoutScheduler.cancel()
         promise.success(response)
         self ! PoisonPill
@@ -69,10 +67,20 @@ package object RequestResponsePattern {
         promise.failure(Exceptions.WaitingForResponseTimeoutException("Waiting for response timeout exceed"))
         self ! PoisonPill
 
-
     }
 
-    override def unhandled(message: Any): Unit = unknownFnc(message)
+    override def unhandled(message: Any): Unit = {
+
+      unexpectedResponse(message, promise)
+
+      // unexpectedResponse can complete promise, so if promise is completed
+      // we must cleanup to avoid memory leak
+      if ( promise.isCompleted ) {
+        timeoutScheduler.cancel()
+        self ! PoisonPill
+      }
+
+    }
 
   }
 
