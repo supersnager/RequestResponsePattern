@@ -2,7 +2,6 @@ package crms.tools.RequestResponsePattern
 import java.util.UUID
 
 import akka.actor.{ActorContext, ActorRef, Props}
-import shapeless.tag
 
 import scala.concurrent.{ExecutionContextExecutor, Future, Promise}
 import scala.reflect.ClassTag
