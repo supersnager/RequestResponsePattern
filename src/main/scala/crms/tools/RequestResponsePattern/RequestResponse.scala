@@ -8,13 +8,15 @@ import scala.reflect.ClassTag
 
 trait RequestResponse {
 
-  /**
-    * Asynchronously sends request to recipient
+  /** Asynchronously sends request to recipient.
+    *
     * Returns Future of expected response type R
+    *
     * Returned future can be:
-    * - successed with received response
-    * - failured with WaitingForResponseTimeoutException
-    * - completed by unexpectedResponse handler (this can be done in your own callback)
+    *
+    *   - successed with received response
+    *   - failured with [[crms.tools.RequestResponsePattern.Exceptions.WaitingForResponseTimeoutException]]
+    *   - completed by unexpectedResponse handler (this can be done in your own callback)
     *
     * @param request Message to send
     * @param recipient Message recipient
