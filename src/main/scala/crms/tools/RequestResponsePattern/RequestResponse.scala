@@ -9,11 +9,16 @@ import scala.reflect.ClassTag
 trait RequestResponse {
 
   /**
-    * Asynchronously sends request
+    * Asynchronously sends request to recipient
     * Returns Future of expected response type R
+    * Returned future can be:
+    * - successed with received response
+    * - failured with WaitingForResponseTimeoutException
+    * - completed by unexpectedResponse handler (this can be done in your own callback)
+    *
     * @param request Message to send
     * @param recipient Message recipient
-    * @param unexpectedResponse Unexpecter response handler
+    * @param unexpectedResponse Unexpected response handler
     * @param timeout Waiting for response timeout in milliseconds. If response will not be received till timeout. Promise will fail with WaitingForResponseTimeoutException
     * @tparam R Expected response type
     */

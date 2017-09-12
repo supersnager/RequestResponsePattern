@@ -1,6 +1,5 @@
 package crms.tools
 import akka.actor.{Actor, ActorRef, PoisonPill}
-import org.omg.CORBA.portable.ResponseHandler
 
 import scala.concurrent.duration.DurationInt
 import scala.concurrent.{ExecutionContextExecutor, Promise}
@@ -9,7 +8,7 @@ import scala.reflect.ClassTag
 package object RequestResponsePattern {
 
   /**
-    * Type for unexpected resposne code
+    * Type for unexpected response code
     */
   type UnexpectedResponse[R] = (Any, Promise[R]) => Unit
 
@@ -23,7 +22,7 @@ package object RequestResponsePattern {
 
   /**
     * Default handler of unexpected response
-    * This handler will be invoked when internal response handler actor receives message that is different from expected type
+    * Handler will be invoked when internal response handler actor receives message different from expected type
     * By default it does nothing, and response actor will be wait for expected message till timeout.
     * But programmer can define own handler for example to log received message, or complete promise before timeout
     * @param res
