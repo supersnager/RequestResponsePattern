@@ -9,7 +9,6 @@ lazy val root = (project in file(".")).settings(
   libraryDependencies ++= Seq(
   "org.scala-lang" % "scala-reflect" % "2.11.11",
   "com.typesafe.akka" %% "akka-actor" % "2.5.2",
-  "com.chuusai" % "shapeless_2.11" % "2.3.2",
   "com.typesafe.akka" %% "akka-testkit" % "2.5.2" % Test
   )
 )
