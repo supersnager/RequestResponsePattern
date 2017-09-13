@@ -1,7 +1,7 @@
 package crms.tools.RequestResponsePattern
 import java.util.UUID
 
-import akka.actor.{ActorContext, ActorRef, Props}
+import akka.actor.{ActorContext, ActorRef, ActorRefFactory, Props}
 
 import scala.concurrent.{ExecutionContextExecutor, Future, Promise}
 import scala.reflect.ClassTag
@@ -27,7 +27,7 @@ trait RequestResponse {
   def sendAsyncRequest[R](request:Any,
                           recipient: ActorRef,
                           unexpectedResponse: UnexpectedResponse[R] = defaultUnexpectedResponse[R] _,
-                          timeout:Int = 5000 )(implicit context: ActorContext,
+                          timeout:Int = 5000 )(implicit factory: ActorRefFactory,
                                                tag: ClassTag[R],
                                                ec: ExecutionContextExecutor): Future[R] = {
 
@@ -35,7 +35,7 @@ trait RequestResponse {
 
       val handlerName = "crms.tools.RequestResponsePattern.ResponseHandler_" + UUID.randomUUID()
 
-      context.actorOf(Props(new ResponseHandler(request, recipient, timeout, unexpectedResponse, p)), handlerName)
+      factory.actorOf(Props(new ResponseHandler(request, recipient, timeout, unexpectedResponse, p)), handlerName)
 
       p.future
 
