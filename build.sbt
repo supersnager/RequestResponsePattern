@@ -1,6 +1,6 @@
 lazy val root = (project in file(".")).settings(
-  name := "Tools Request-Response Pattern",
-  organization := "crms",
+  name := "Request-Response Pattern",
+  organization := "crms.tools",
   version := "0.0.1-SNAPSHOT",
   scalaVersion := "2.11.11",
   scalacOptions += "-deprecation",
