@@ -60,7 +60,7 @@ object SetSpec {
         override def receive:Receive = {
             case m: Api.Messages.Req =>
                 sender ! Api.Messages.Res(0)
-            case _ => println("KURWA")
+            case _ => println("???")
         }
     }
 
