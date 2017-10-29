@@ -42,7 +42,7 @@ class MyClass extends Actor with RequestResponse {
   // Default is 5s
   val timeout = 6000
 
-  // sendAsyncReqest method uses futures, so need implicit execution context
+  // sendAsyncRequest method uses futures, so need implicit execution context
   import context.dispatcher
 
   // Give expected response as a type parameter
