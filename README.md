@@ -15,7 +15,7 @@ If no expected message arrives in given time, WaitingForResponseTimeoutException
 * Configurable timeout
 * Configurable function for catching unexpected responses
 * Easy to use, no boilerplate code
-* Can be used from classes and companion objects (
+* Can be used from classes and companion objects
  
 ## Install
 There is no tagged version yet.
