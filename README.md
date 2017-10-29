@@ -1,12 +1,10 @@
 # RequestResponse
 Request-response pattern implementation for Scala, based on Akka and Futures.
 
-Library uses "actor per request" model.
-When you invoke sendAsyncRequest method, a new actor is spawned, and message is send to given recipient.
-Spawned actor is waiting for expected response.
-
-When expected response is received, future returned by method is resolved with this response.
-
+Library uses "actor per request" model. 
+When you invoke sendAsyncRequest method, a new actor is spawned, and message is send to given recipient.  
+Spawned actor is waiting for expected response.  
+When expected response is received, future returned by method is resolved with this response.  
 If no expected message arrives in given time, WaitingForResponseTimeoutException will be thrown.
  
 ## Features
@@ -18,7 +16,7 @@ If no expected message arrives in given time, WaitingForResponseTimeoutException
 * Can be used from classes and companion objects
  
 ## Install
-There is no tagged version yet.
+There is no tagged version yet.  
 Add to your build.sbt:
 ```scala
   libraryDependencies += "crms.tools" %% "request-response-pattern" % "0.0.1-SNAPSHOT"
