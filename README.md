@@ -63,6 +63,7 @@ class MyClass extends Actor with RequestResponse {
 
         case t: WaitingForResponseTimeoutException =>
           println("Timeout")
+          
         case _ => println("Other exception")
 
       }
