@@ -18,8 +18,8 @@ If no expected message arrives in given time, WaitingForResponseTimeoutException
 ## Install
 There is no tagged version yet.  
 Add to your build.sbt:
-```scala
-  libraryDependencies += "crms.tools" %% "request-response-pattern" % "0.0.1-SNAPSHOT"
+```scala  
+  libraryDependencies += "io.github.supersnager" %% "request-response-pattern" % "0.0.1-SNAPSHOT"
 ``` 
 ## Use
 
