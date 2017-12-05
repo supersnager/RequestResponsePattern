@@ -19,7 +19,7 @@ If no expected message arrives in given time, WaitingForResponseTimeoutException
 There is no tagged version yet.  
 Add to your build.sbt:
 ```scala  
-  libraryDependencies += "io.github.supersnager" %% "request-response-pattern" % "0.0.1-SNAPSHOT"
+  libraryDependencies += "io.github.supersnager" %% "request-response-pattern" % "1.0.0"
 ``` 
 ## Use
 
@@ -86,5 +86,5 @@ class MyClass extends Actor with RequestResponse {
 TODO
 
 ## Project which use RequestRespone
-Please give me know if you like and use this library :)
+Please let me know if you like and use this library :)
 

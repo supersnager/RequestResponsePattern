@@ -1,7 +1,7 @@
 lazy val root = (project in file(".")).settings(
   name := "Request-Response Pattern",
   organization := "io.github.supersnager",
-  version := "0.0.1-SNAPSHOT",
+  version := "1.0.0",
   scalaVersion := "2.11.11",
   scalacOptions += "-deprecation",
   scalacOptions += "-target:jvm-1.8",
@@ -26,7 +26,7 @@ lazy val root = (project in file(".")).settings(
       Some("releases"  at nexus + "service/local/staging/deploy/maven2")
   },
   licenses := Seq("APL2" -> url("http://www.apache.org/licenses/LICENSE-2.0.txt")),
-  homepage := Some(url("https://supersnager.github.io/RequestResponsePattern/")),
+  homepage := Some(url("https://supersnager.github.io/RequestResponsePattern")),
   scmInfo := Some(
     ScmInfo(
         url("https://github.com/supersnager/RequestResponsePattern"),
