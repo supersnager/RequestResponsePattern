@@ -40,7 +40,7 @@ class SetSpec() extends TestKit(ActorSystem("SetSpec")) with ImplicitSender
 
             implicit val executionContext = ExecutionContext.Implicits.global
 
-            val retFuture = sendAsyncRequest[Api.Messages.Res](Api.Messages.Req(0),apiActor, )
+            val retFuture = sendAsyncRequest[Api.Messages.Res](Api.Messages.Req(0),apiActor )
 
             //val z = expectMsgClass[Future[Api.Messages.Res]](classOf[Future[Api.Messages.Res]])
             retFuture.map( res => assert(res.isInstanceOf[Api.Messages.Res]))

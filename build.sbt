@@ -2,16 +2,21 @@ lazy val root = (project in file(".")).settings(
   name := "Request-Response Pattern",
   organization := "io.github.supersnager",
   version := "1.0.0",
-  scalaVersion := "2.11.11",
+  scalaVersion := "2.12.7",
   scalacOptions += "-deprecation",
   scalacOptions += "-target:jvm-1.8",
   scalacOptions += "-feature",
+  resolvers += "Artima Maven Repository" at "https://repo.artima.com/releases",
   libraryDependencies ++= Seq(
-  "org.scala-lang" % "scala-reflect" % "2.11.11",
-  "com.typesafe.akka" %% "akka-actor" % "2.5.2",
-  "com.typesafe.akka" %% "akka-testkit" % "2.5.2" % Test,
-  "org.scalactic" %% "scalactic" % "3.0.1",
-  "org.scalatest" %% "scalatest" % "3.0.1" % "test"
+  //"org.scala-lang" % "scala-reflect" % "2.11.11",
+  //"com.typesafe.akka" %% "akka-actor" % "2.5.2",
+    "com.typesafe.akka" %% "akka-actor" % "2.5.19",
+  //"com.typesafe.akka" %% "akka-testkit" % "2.5.2" % Test,
+    "com.typesafe.akka" %% "akka-testkit" % "2.5.19" % Test,
+  //"org.scalactic" %% "scalactic" % "3.0.1",
+    "org.scalactic" %% "scalactic" % "3.0.5",
+  //"org.scalatest" %% "scalatest" % "3.0.1" % "test"
+    "org.scalatest" %% "scalatest" % "3.0.5" % "test"
 
   ),
 
